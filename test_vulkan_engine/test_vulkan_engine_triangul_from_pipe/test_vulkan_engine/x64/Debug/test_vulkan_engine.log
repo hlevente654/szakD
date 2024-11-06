@@ -1,0 +1,3 @@
+﻿  VulkanRenderer.cpp
+C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(684,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+  test_vulkan_engine.vcxproj -> C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\x64\Debug\test_vulkan_engine.exe
