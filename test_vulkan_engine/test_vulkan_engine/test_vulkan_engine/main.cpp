@@ -9,29 +9,22 @@
 #include <iostream>
 
 #include "VulkanRenderer.h"
+#include "Window.h"
+#include "Camera.h"
 
-GLFWwindow* window;
 VulkanRenderer vulkanRenderer;
-
-void initWindow(std::string wName = "Test Window", const int width = 800, const int height = 600)
-{
-	// Initialise GLFW
-	glfwInit();
-
-	// Set GLFW to NOT work with OpenGL
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-	window = glfwCreateWindow(width, height, wName.c_str(), nullptr, nullptr);
-}
+Camera camera;
 
 int main()
 {
 	// Create Window
-	initWindow("Test Window", 1366, 768);
+	Window window = Window(1600, 900, "Vulkan");
+	
+	// create camera
+	camera = Camera(glm::vec3(50.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 10.0f, 0.5f);
 
 	// Create Vulkan Renderer instance
-	if (vulkanRenderer.init(window) == EXIT_FAILURE)
+	if (vulkanRenderer.init(window.mainWindow, &camera) == EXIT_FAILURE)
 	{
 		return EXIT_FAILURE;
 	}
@@ -40,12 +33,14 @@ int main()
 	float deltaTime = 0.0f;
 	float lastTime = 0.0f;
 
-	int helicopter = vulkanRenderer.createMeshModel("Models/Seahawk.obj");
+	int fullModel = vulkanRenderer.createMeshModel("Models/Seahawk.obj");
 
 	// Loop until closed
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window.mainWindow))
 	{
 		glfwPollEvents();
+		camera.keyControl(window.getsKeys(), deltaTime);
+		camera.mouseControl(window.getXChange(), window.getYChange());
 
 		float now = glfwGetTime();
 		deltaTime = now - lastTime;
@@ -54,9 +49,14 @@ int main()
 		angle += 10.0f * deltaTime;
 		if (angle > 360.0f) { angle -= 360.0f; }
 
-		glm::mat4 testMat = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-		testMat = glm::rotate(testMat, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		vulkanRenderer.updateModel(helicopter, testMat);
+		// update camera
+		//vulkanRenderer.updateView();
+
+		// update model
+		//glm::mat4 testMat = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
+		//testMat = glm::rotate(testMat, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//vulkanRenderer.updateModel(fullModel, testMat);
+
 
 		vulkanRenderer.draw();
 	}
@@ -64,7 +64,7 @@ int main()
 	vulkanRenderer.cleanup();
 
 	// Destroy GLFW window and stop GLFW
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(window.mainWindow);
 	glfwTerminate();
 
 	return 0;

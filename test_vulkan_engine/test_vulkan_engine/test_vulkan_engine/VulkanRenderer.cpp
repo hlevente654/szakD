@@ -6,9 +6,11 @@ VulkanRenderer::VulkanRenderer()
 {
 }
 
-int VulkanRenderer::init(GLFWwindow* newWindow)
+int VulkanRenderer::init(GLFWwindow* newWindow, Camera* newCamera)
 {
 	window = newWindow;
+
+	camera = newCamera;
 
 	try {
 		createInstance();
@@ -31,11 +33,6 @@ int VulkanRenderer::init(GLFWwindow* newWindow)
 		createDescriptorSets();
 		createSynchronisation();
 
-		uboViewProjection.projection = glm::perspective(glm::radians(45.0f), (float)swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 100.0f);
-		uboViewProjection.view = glm::lookAt(glm::vec3(50.0f, 0.0f, 40.0f), glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		uboViewProjection.projection[1][1] *= -1;
-
 		// Create our default "no texture" texture
 		createTexture("plain.png");
 	}
@@ -53,6 +50,26 @@ void VulkanRenderer::updateModel(int modelId, glm::mat4 newModel)
 
 	modelList[modelId].setModel(newModel);
 }
+
+void VulkanRenderer::updateView()
+{
+	glm::vec3 cameraPosition = this->camera->getPosition();
+	//glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, -2.0f);
+	//glm::vec3 cameraTarget = this->camera->getFront();
+	glm::vec3 cameraTarget = this->camera->getPosition() + this->camera->getFront();
+	glm::vec3 upDirection = this->camera->getUp();
+
+	// A vetítési mátrix beállítása (perspective projection)
+	uboViewProjection.projection = glm::perspective(glm::radians(45.0f),
+		(float)swapChainExtent.width / (float)swapChainExtent.height,
+		0.1f, 1000.0f);
+
+	// A kamera nézete (view matrix) számítása
+	uboViewProjection.view = glm::lookAt(cameraPosition, cameraTarget, upDirection);
+
+	uboViewProjection.projection[1][1] *= -1;
+}
+
 
 void VulkanRenderer::draw()
 {
@@ -1048,18 +1065,6 @@ void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
 	vkMapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex], 0, sizeof(UboViewProjection), 0, &data);
 	memcpy(data, &uboViewProjection, sizeof(UboViewProjection));
 	vkUnmapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex]);
-
-	// Copy Model data
-	/*for (size_t i = 0; i < meshList.size(); i++)
-	{
-		UboModel * thisModel = (UboModel *)((uint64_t)modelTransferSpace + (i * modelUniformAlignment));
-		*thisModel = meshList[i].getModel();
-	}
-
-	// Map the list of model data
-	vkMapMemory(mainDevice.logicalDevice, modelDUniformBufferMemory[imageIndex], 0, modelUniformAlignment * meshList.size(), 0, &data);
-	memcpy(data, modelTransferSpace, modelUniformAlignment * meshList.size());
-	vkUnmapMemory(mainDevice.logicalDevice, modelDUniformBufferMemory[imageIndex]);*/
 }
 
 void VulkanRenderer::recordCommands(uint32_t currentImage)

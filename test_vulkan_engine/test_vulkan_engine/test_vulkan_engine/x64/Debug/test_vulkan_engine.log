@@ -1,4 +1,6 @@
-﻿  main.cpp
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\main.cpp(50,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  VulkanRenderer.cpp
+C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(1615,30): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(1675,38): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(1717,26): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\Utilities.h(92,1): warning C4715: 'findMemoryTypeIndex': not all control paths return a value
   test_vulkan_engine.vcxproj -> C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\x64\Debug\test_vulkan_engine.exe
