@@ -1081,7 +1081,7 @@ void VulkanRenderer::recordCommands(uint32_t currentImage)
 	renderPassBeginInfo.renderArea.extent = swapChainExtent;				// Size of region to run render pass on (starting at offset)
 
 	std::array<VkClearValue, 2> clearValues = {};
-	clearValues[0].color = { 0.6f, 0.65f, 0.4f, 1.0f };
+	clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f };
 	clearValues[1].depthStencil.depth = 1.0f;
 
 	renderPassBeginInfo.pClearValues = clearValues.data();					// List of clear values
