@@ -60,6 +60,7 @@ GLfloat Window::getXChange()
 	xChange = 0.0f;
 	return theChange;
 }
+
 void Window::handleKeys(GLFWwindow* window, int key, int code, int action, int mode)
 {
 	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));

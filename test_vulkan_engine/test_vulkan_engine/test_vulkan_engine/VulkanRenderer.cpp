@@ -1734,3 +1734,8 @@ stbi_uc* VulkanRenderer::loadTextureFile(std::string fileName, int* width, int* 
 
 	return image;
 }
+
+MeshModel* VulkanRenderer::getMeshModel(int meshId)
+{
+	return &modelList[meshId];
+}

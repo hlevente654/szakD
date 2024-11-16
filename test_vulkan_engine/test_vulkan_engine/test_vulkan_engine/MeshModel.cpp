@@ -152,6 +152,31 @@ Mesh MeshModel::LoadMesh(VkPhysicalDevice newPhysicalDevice, VkDevice newDevice,
 	return newMesh;
 }
 
+void MeshModel::keyControl(bool* keys, float deltaTime, float angleSpeed)
+{
+	// Y tengely körüli forgatás (balra/jobbra)
+	if (keys[GLFW_KEY_LEFT]) {
+		angleY -= angleSpeed * deltaTime;  // Forgatás balra
+	}
+	if (keys[GLFW_KEY_RIGHT]) {
+		angleY += angleSpeed * deltaTime;  // Forgatás jobbra
+	}
+
+	// X tengely körüli forgatás (fel/le)
+	if (keys[GLFW_KEY_UP]) {
+		angleX -= angleSpeed * deltaTime;  // Forgatás fel
+	}
+	if (keys[GLFW_KEY_DOWN]) {
+		angleX += angleSpeed * deltaTime;  // Forgatás le
+	}
+
+	// Frissítjük a modell mátrixot a forgatással
+	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(angleY), glm::vec3(0.0f, 1.0f, 0.0f)); // Y tengely
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(angleX), glm::vec3(1.0f, 0.0f, 0.0f)); // X tengely
+
+	this->setModel(modelMatrix);
+}
 
 MeshModel::~MeshModel()
 {

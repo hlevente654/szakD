@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <assimp/scene.h>
 
@@ -24,6 +25,8 @@ public:
 
 	void destroyMeshModel();
 
+	void keyControl(bool* keys, float deltaTime, float angleSpeed);
+
 	static std::vector<std::string> LoadMaterials(const aiScene* scene);
 	static std::vector<Mesh> LoadNode(VkPhysicalDevice newPhysicalDevice, VkDevice newDevice, VkQueue transferQueue, VkCommandPool transferCommandPool,
 		aiNode* node, const aiScene* scene, std::vector<int> matToTex);
@@ -35,5 +38,10 @@ public:
 private:
 	std::vector<Mesh> meshList;
 	glm::mat4 model;
+
+
+	float angleY = 0.0f; // Y tengely körüli forgatás
+	float angleX = 0.0f; // X tengely körüli forgatás
+	glm::mat4 modelMatrix = glm::mat4(1.0f); // Modell mátrix
 };
 

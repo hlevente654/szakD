@@ -33,7 +33,7 @@ int main()
 	float deltaTime = 0.0f;
 	float lastTime = 0.0f;
 
-	int fullModel = vulkanRenderer.createMeshModel("Models/Seahawk.obj");
+	int fullModelId = vulkanRenderer.createMeshModel("Models/Seahawk.obj");
 
 	// Loop until closed
 	while (!glfwWindowShouldClose(window.mainWindow))
@@ -41,6 +41,7 @@ int main()
 		glfwPollEvents();
 		camera.keyControl(window.getsKeys(), deltaTime);
 		camera.mouseControl(window.getXChange(), window.getYChange());
+		
 
 		float now = glfwGetTime();
 		deltaTime = now - lastTime;
@@ -50,13 +51,10 @@ int main()
 		if (angle > 360.0f) { angle -= 360.0f; }
 
 		// update camera
-		//vulkanRenderer.updateView();
+		vulkanRenderer.updateView();
 
 		// update model
-		//glm::mat4 testMat = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-		//testMat = glm::rotate(testMat, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//vulkanRenderer.updateModel(fullModel, testMat);
-
+		vulkanRenderer.getMeshModel(fullModelId)->keyControl(window.getsKeys(), deltaTime, 5.0f);
 
 		vulkanRenderer.draw();
 	}

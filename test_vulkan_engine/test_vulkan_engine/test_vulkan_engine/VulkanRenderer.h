@@ -37,6 +37,9 @@ public:
 	void draw();
 	void cleanup();
 
+	// get
+	MeshModel* getMeshModel(int meshId);
+
 	~VulkanRenderer();
 
 private:
@@ -182,6 +185,5 @@ private:
 
 	// -- Loader Functions
 	stbi_uc* loadTextureFile(std::string fileName, int* width, int* height, VkDeviceSize* imageSize);
-
 };
 
