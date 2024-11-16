@@ -7,7 +7,7 @@ layout(set = 1, binding = 0) uniform sampler2D textureSampler;  // Textúra mint
 
 layout(location = 0) out vec4 outColour;  // Végső kimeneti szín
 
-layout(set = 2, binding = 1) uniform UboLighting {
+layout(set = 0, binding = 1) uniform UboLighting {
     vec3 lightColor;
     float ambiantStr;
 } uboLighting;
@@ -17,7 +17,7 @@ void main() {
     vec4 texColor = texture(textureSampler, fragTex);
 
     // Ambient fény kiszámítása: erősség szorozva a fény színével
-    vec3 ambient = 0.5f * vec3(1.0f, 1.0f, 1.0f);
+    vec3 ambient = uboLighting.ambiantStr * uboLighting.lightColor;
 
     // A textúra színe és az ambient fény keverése
     vec3 finalColor = texColor.rgb * ambient;  // Sötétítés a textúra színén az ambient fénynek megfelelően
