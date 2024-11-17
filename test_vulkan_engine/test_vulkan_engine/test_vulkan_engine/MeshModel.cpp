@@ -6,10 +6,17 @@ MeshModel::MeshModel()
 {
 }
 
-MeshModel::MeshModel(std::vector<Mesh> newMeshList)
+MeshModel::MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos)
 {
 	meshList = newMeshList;
 	model = glm::mat4(1.0f);
+	controlable = isControlable;
+
+	modelMatrix = glm::mat4(1.0f);
+
+	modelMatrix = glm::translate(modelMatrix, startPos);
+	position = startPos;
+	this->setModel(modelMatrix);
 }
 
 size_t MeshModel::getMeshCount()
@@ -37,6 +44,11 @@ glm::mat4* MeshModel::getModelRef()
 	return &model;
 }
 
+bool MeshModel::getControlable()
+{
+	return this->controlable;
+}
+
 void MeshModel::setModel(glm::mat4 newModel)
 {
 	model = newModel;
@@ -49,6 +61,7 @@ void MeshModel::destroyMeshModel()
 		mesh.destroyBuffers();
 	}
 }
+
 
 std::vector<std::string> MeshModel::LoadMaterials(const aiScene* scene)
 {
@@ -152,31 +165,52 @@ Mesh MeshModel::LoadMesh(VkPhysicalDevice newPhysicalDevice, VkDevice newDevice,
 	return newMesh;
 }
 
-void MeshModel::keyControl(bool* keys, float deltaTime, float angleSpeed)
+void MeshModel::keyControl(bool* keys, float deltaTime, float moveSpeed, float angleSpeed)
 {
-	// Y tengely körüli forgatás (balra/jobbra)
-	if (keys[GLFW_KEY_LEFT]) {
-		angleY -= angleSpeed * deltaTime;  // Forgatás balra
-	}
-	if (keys[GLFW_KEY_RIGHT]) {
-		angleY += angleSpeed * deltaTime;  // Forgatás jobbra
-	}
+    if (this->controlable)
+    {
+        // Mozgás jobbra/balra (X tengely mentén)
+        if (keys[GLFW_KEY_LEFT]) {
+            position.x -= moveSpeed * deltaTime;  // Mozgás balra
+        }
+        if (keys[GLFW_KEY_RIGHT]) {
+            position.x += moveSpeed * deltaTime;  // Mozgás jobbra
+        }
 
-	// X tengely körüli forgatás (fel/le)
-	if (keys[GLFW_KEY_UP]) {
-		angleX -= angleSpeed * deltaTime;  // Forgatás fel
-	}
-	if (keys[GLFW_KEY_DOWN]) {
-		angleX += angleSpeed * deltaTime;  // Forgatás le
-	}
+        // Mozgás fel/le (Y tengely mentén)
+        if (keys[GLFW_KEY_UP]) {
+            position.y += moveSpeed * deltaTime;  // Mozgás felfelé
+        }
+        if (keys[GLFW_KEY_DOWN]) {
+            position.y -= moveSpeed * deltaTime;  // Mozgás lefelé
+        }
 
-	// Frissítjük a modell mátrixot a forgatással
-	modelMatrix = glm::mat4(1.0f);
-	modelMatrix = glm::rotate(modelMatrix, glm::radians(angleY), glm::vec3(0.0f, 1.0f, 0.0f)); // Y tengely
-	modelMatrix = glm::rotate(modelMatrix, glm::radians(angleX), glm::vec3(1.0f, 0.0f, 0.0f)); // X tengely
+        // Forgatás a saját tengely körül (numpad 8/2)
+        if (keys[GLFW_KEY_KP_8]) {  // Numpad 8 (fel)
+            angleZ -= angleSpeed * deltaTime;  // Forgatás fel
+        }
+        if (keys[GLFW_KEY_KP_2]) {  // Numpad 2 (le)
+            angleZ += angleSpeed * deltaTime;  // Forgatás le
+        }
 
-	this->setModel(modelMatrix);
+        // Forgatás balra/jobbra (numpad 4/6)
+        if (keys[GLFW_KEY_KP_4]) {  // Numpad 4 (balra)
+            angleY -= angleSpeed * deltaTime;  // Forgatás balra
+        }
+        if (keys[GLFW_KEY_KP_6]) {  // Numpad 6 (jobbra)
+            angleY += angleSpeed * deltaTime;  // Forgatás jobbra
+        }
+
+        // Modell mátrix frissítése
+        modelMatrix = glm::mat4(1.0f);  // Alap mátrix
+        modelMatrix = glm::translate(modelMatrix, position);  // Pozíció alkalmazása
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(angleY), glm::vec3(0.0f, 1.0f, 0.0f));  // Y tengely körüli forgatás
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(angleZ), glm::vec3(0.0f, 0.0f, 1.0f));  // z tengely körüli forgatás
+
+        this->setModel(modelMatrix);  // Frissített modell mátrix beállítása
+    }
 }
+
 
 MeshModel::~MeshModel()
 {

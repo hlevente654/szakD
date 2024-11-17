@@ -32,8 +32,12 @@ int main()
 	float angle = 0.0f;
 	float deltaTime = 0.0f;
 	float lastTime = 0.0f;
+	std::vector<int> modelIds;
 
-	int fullModelId = vulkanRenderer.createMeshModel("Models/Seahawk.obj");
+	int seahawk = vulkanRenderer.createMeshModel("Models/Seahawk.obj", false);
+	modelIds.push_back(seahawk);
+	int flashlight = vulkanRenderer.createMeshModel("Models/flashlight.obj", true);
+	modelIds.push_back(flashlight);
 
 	// Loop until closed
 	while (!glfwWindowShouldClose(window.mainWindow))
@@ -54,7 +58,12 @@ int main()
 		vulkanRenderer.updateView();
 
 		// update model
-		vulkanRenderer.getMeshModel(fullModelId)->keyControl(window.getsKeys(), deltaTime, 5.0f);
+		for (size_t i = 0; i < modelIds.size(); i++)
+		{
+			vulkanRenderer.getMeshModel(modelIds[i])->keyControl(window.getsKeys(), deltaTime, 8.0f, 8.0f);
+
+		}
+		
 
 		vulkanRenderer.draw();
 	}

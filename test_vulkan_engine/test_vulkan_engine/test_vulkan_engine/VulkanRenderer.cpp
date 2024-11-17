@@ -178,6 +178,8 @@ void VulkanRenderer::cleanup()
 	{
 		vkDestroyBuffer(mainDevice.logicalDevice, vpUniformBuffer[i], nullptr);
 		vkFreeMemory(mainDevice.logicalDevice, vpUniformBufferMemory[i], nullptr);
+		vkDestroyBuffer(mainDevice.logicalDevice, lightingUniformBuffer[i], nullptr);
+		vkFreeMemory(mainDevice.logicalDevice, lightingUniformBufferMemory[i], nullptr);
 		//vkDestroyBuffer(mainDevice.logicalDevice, modelDUniformBuffer[i], nullptr);
 		//vkFreeMemory(mainDevice.logicalDevice, modelDUniformBufferMemory[i], nullptr);
 	}
@@ -287,6 +289,14 @@ void VulkanRenderer::createInstance()
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create instance!");
 	}
+}
+
+void VulkanRenderer::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+	createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	createInfo.pfnUserCallback = debugCallback;
 }
 
 void VulkanRenderer::createLogicalDevice()
@@ -553,9 +563,8 @@ void VulkanRenderer::createDescriptorSetLayout()
 	lightBindingInfo.binding = 1;
 	lightBindingInfo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 	lightBindingInfo.descriptorCount = 1;
-	lightBindingInfo.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT; // vagy a megfelelõ shader stage
+	lightBindingInfo.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;				// vagy a megfelelõ shader stage
 	lightBindingInfo.pImmutableSamplers = nullptr;
-
 
 	std::vector<VkDescriptorSetLayoutBinding> layoutBindings = { vpLayoutBinding, lightBindingInfo };
 
@@ -962,15 +971,15 @@ void VulkanRenderer::createUniformBuffers()
 {
 	// ViewProjection buffer size
 	VkDeviceSize vpBufferSize = sizeof(UboViewProjection);
-
-	// Model buffer size
-	//VkDeviceSize modelBufferSize = modelUniformAlignment * MAX_OBJECTS;
+	
+	VkDeviceSize lightingBufferSize = sizeof(UboAmbLighting);
 
 	// One uniform buffer for each image (and by extension, command buffer)
 	vpUniformBuffer.resize(swapChainImages.size());
 	vpUniformBufferMemory.resize(swapChainImages.size());
-	//modelDUniformBuffer.resize(swapChainImages.size());
-	//modelDUniformBufferMemory.resize(swapChainImages.size());
+
+	lightingUniformBuffer.resize(swapChainImages.size());
+	lightingUniformBufferMemory.resize(swapChainImages.size());
 
 	// Create Uniform buffers
 	for (size_t i = 0; i < swapChainImages.size(); i++)
@@ -978,8 +987,10 @@ void VulkanRenderer::createUniformBuffers()
 		createBuffer(mainDevice.physicalDevice, mainDevice.logicalDevice, vpBufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &vpUniformBuffer[i], &vpUniformBufferMemory[i]);
 
-		/*createBuffer(mainDevice.physicalDevice, mainDevice.logicalDevice, modelBufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &modelDUniformBuffer[i], &modelDUniformBufferMemory[i]);*/
+		createBuffer(mainDevice.physicalDevice, mainDevice.logicalDevice, lightingBufferSize,
+			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+			&lightingUniformBuffer[i], &lightingUniformBufferMemory[i]);
 	}
 }
 
@@ -992,13 +1003,18 @@ void VulkanRenderer::createDescriptorPool()
 	vpPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 	vpPoolSize.descriptorCount = static_cast<uint32_t>(vpUniformBuffer.size());
 
+	// light pool
+	VkDescriptorPoolSize vpPoolSizeLight = {};
+	vpPoolSizeLight.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	vpPoolSizeLight.descriptorCount = static_cast<uint32_t>(lightingUniformBuffer.size());
+
 	// Model Pool (DYNAMIC)
 	/*VkDescriptorPoolSize modelPoolSize = {};
 	modelPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 	modelPoolSize.descriptorCount = static_cast<uint32_t>(modelDUniformBuffer.size());*/
 
 	// List of pool sizes
-	std::vector<VkDescriptorPoolSize> descriptorPoolSizes = { vpPoolSize };
+	std::vector<VkDescriptorPoolSize> descriptorPoolSizes = { vpPoolSize, vpPoolSizeLight };
 
 	// Data to create Descriptor Pool
 	VkDescriptorPoolCreateInfo poolCreateInfo = {};
@@ -1064,6 +1080,12 @@ void VulkanRenderer::createDescriptorSets()
 		vpBufferInfo.offset = 0;						// Position of start of data
 		vpBufferInfo.range = sizeof(UboViewProjection);				// Size of data
 
+		// light description
+		VkDescriptorBufferInfo lightBufferInfo = {};
+		lightBufferInfo.buffer = lightingUniformBuffer[i];
+		lightBufferInfo.offset = 0;
+		lightBufferInfo.range = sizeof(UboAmbLighting);
+
 		// Data about connection between binding and buffer
 		VkWriteDescriptorSet vpSetWrite = {};
 		vpSetWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -1073,6 +1095,15 @@ void VulkanRenderer::createDescriptorSets()
 		vpSetWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;		// Type of descriptor
 		vpSetWrite.descriptorCount = 1;									// Amount to update
 		vpSetWrite.pBufferInfo = &vpBufferInfo;							// Information about buffer data to bind
+
+		VkWriteDescriptorSet lightSetWrite = {};
+		lightSetWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		lightSetWrite.dstSet = descriptorSets[i];
+		lightSetWrite.dstBinding = 1;
+		lightSetWrite.dstArrayElement = 0;
+		lightSetWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		lightSetWrite.descriptorCount = 1;
+		lightSetWrite.pBufferInfo = &lightBufferInfo;
 
 		// MODEL DESCRIPTOR
 		// Model Buffer Binding Info
@@ -1091,7 +1122,7 @@ void VulkanRenderer::createDescriptorSets()
 		modelSetWrite.pBufferInfo = &modelBufferInfo;*/
 
 		// List of Descriptor Set Writes
-		std::vector<VkWriteDescriptorSet> setWrites = { vpSetWrite };
+		std::vector<VkWriteDescriptorSet> setWrites = { vpSetWrite, lightSetWrite };
 
 		// Update the descriptor sets with new buffer/binding info
 		vkUpdateDescriptorSets(mainDevice.logicalDevice, static_cast<uint32_t>(setWrites.size()), setWrites.data(),
@@ -1099,6 +1130,7 @@ void VulkanRenderer::createDescriptorSets()
 	}
 }
 
+/*
 void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
 {
 	// Copy VP data
@@ -1106,6 +1138,21 @@ void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
 	vkMapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex], 0, sizeof(UboViewProjection), 0, &data);
 	memcpy(data, &uboViewProjection, sizeof(UboViewProjection));
 	vkUnmapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex]);
+}
+*/
+
+void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
+{
+	// Frissítjük a ViewProjection adatokat
+	void* data;
+	vkMapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex], 0, sizeof(UboViewProjection), 0, &data);
+	memcpy(data, &uboViewProjection, sizeof(UboViewProjection));
+	vkUnmapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex]);
+
+	// Frissítjük a Lighting adatokat
+	vkMapMemory(mainDevice.logicalDevice, lightingUniformBufferMemory[imageIndex], 0, sizeof(UboAmbLighting), 0, &data);
+	memcpy(data, &uboAmbLighting, sizeof(UboAmbLighting));
+	vkUnmapMemory(mainDevice.logicalDevice, lightingUniformBufferMemory[imageIndex]);
 }
 
 void VulkanRenderer::recordCommands(uint32_t currentImage)
@@ -1122,7 +1169,7 @@ void VulkanRenderer::recordCommands(uint32_t currentImage)
 	renderPassBeginInfo.renderArea.extent = swapChainExtent;				// Size of region to run render pass on (starting at offset)
 
 	std::array<VkClearValue, 2> clearValues = {};
-	clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+	clearValues[0].color = { 0.5f, 0.5f, 0.5f, 1.0f };
 	clearValues[1].depthStencil.depth = 1.0f;
 
 	renderPassBeginInfo.pClearValues = clearValues.data();					// List of clear values
@@ -1714,7 +1761,7 @@ int VulkanRenderer::createTextureDescriptor(VkImageView textureImage)
 	return samplerDescriptorSets.size() - 1;
 }
 
-int VulkanRenderer::createMeshModel(std::string modelFile)
+int VulkanRenderer::createMeshModel(std::string modelFile, bool controlable)
 {
 	// Import model "scene"
 	Assimp::Importer importer;
@@ -1750,7 +1797,7 @@ int VulkanRenderer::createMeshModel(std::string modelFile)
 		scene->mRootNode, scene, matToTex);
 
 	// Create mesh model and add to list
-	MeshModel meshModel = MeshModel(modelMeshes);
+	MeshModel meshModel = MeshModel(modelMeshes, controlable);
 	modelList.push_back(meshModel);
 
 	return modelList.size() - 1;

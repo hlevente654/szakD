@@ -85,14 +85,8 @@ public:
 		return VK_FALSE;
 	}
 	VkDebugUtilsMessengerEXT debugMessenger;
-	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
-		createInfo = {};
-		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-		createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-		createInfo.pfnUserCallback = debugCallback;
-	}
 
+	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	void setupDebugMessenger();
 	VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
 		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
@@ -111,17 +105,20 @@ public:
 	}
 
 
-	// -LIGHT
-	struct UboLighting {
+	// - LIGHT
+	// -- Ambiant
+	struct UboAmbLighting {
 		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-		float ambiantStr = 0.5f;
-	} uboLighting;
+		float ambiantStr = 0.4f;
+	} uboAmbLighting;
+	std::vector<VkBuffer> lightingUniformBuffer;
+	std::vector<VkDeviceMemory> lightingUniformBufferMemory;
 
 	VulkanRenderer();
 
 	int init(GLFWwindow* newWindow, Camera* camera);
 
-	int createMeshModel(std::string modelFile);
+	int createMeshModel(std::string modelFile, bool controlable);
 	void updateModel(int modelId, glm::mat4 newModel);
 	void updateView();
 
