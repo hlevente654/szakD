@@ -6,17 +6,30 @@ MeshModel::MeshModel()
 {
 }
 
+MeshModel::MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos, glm::vec3 lookAt)
+{
+    meshList = newMeshList;
+    model = glm::mat4(1.0f);
+    controlable = isControlable;
+    position = startPos;
+
+    glm::vec3 direction = glm::normalize(lookAt - startPos);
+
+    angleY = 0.0f;
+    angleX = 0.0f;
+    angleY = angleY + glm::degrees(atan2(direction.x, direction.z));
+
+    this->setModel(glm::translate(glm::mat4(1.0f), position));
+}
+
 MeshModel::MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos)
 {
 	meshList = newMeshList;
 	model = glm::mat4(1.0f);
 	controlable = isControlable;
-
-	modelMatrix = glm::mat4(1.0f);
-
-	modelMatrix = glm::translate(modelMatrix, startPos);
 	position = startPos;
-	this->setModel(modelMatrix);
+
+	this->setModel(glm::translate(glm::mat4(1.0f), position));
 }
 
 size_t MeshModel::getMeshCount()
@@ -52,6 +65,16 @@ bool MeshModel::getControlable()
 void MeshModel::setModel(glm::mat4 newModel)
 {
 	model = newModel;
+}
+
+glm::vec3 MeshModel::getPosition()
+{
+    return position;
+}
+
+glm::vec3 MeshModel::getDirection() {
+    glm::vec3 forward = glm::normalize(glm::vec3(model[2]));
+    return forward;
 }
 
 void MeshModel::destroyMeshModel()
@@ -120,98 +143,158 @@ std::vector<Mesh> MeshModel::LoadNode(VkPhysicalDevice newPhysicalDevice, VkDevi
 
 Mesh MeshModel::LoadMesh(VkPhysicalDevice newPhysicalDevice, VkDevice newDevice, VkQueue transferQueue, VkCommandPool transferCommandPool, aiMesh* mesh, const aiScene* scene, std::vector<int> matToTex)
 {
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
+    std::vector<Vertex> vertices;
+    std::vector<uint32_t> indices;
 
-	// Resize vertex list to hold all vertices for mesh
-	vertices.resize(mesh->mNumVertices);
+    // Resize vertex list to hold all vertices for mesh
+    vertices.resize(mesh->mNumVertices);
 
-	// Go through each vertex and copy it across to our vertices
-	for (size_t i = 0; i < mesh->mNumVertices; i++)
-	{
-		// Set position
-		vertices[i].pos = { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z };
+    // Go through each vertex and copy it across to our vertices
+    for (size_t i = 0; i < mesh->mNumVertices; i++)
+    {
+        // Set position
+        vertices[i].pos = { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z };
 
-		// Set tex coords (if they exist)
-		if (mesh->mTextureCoords[0])
-		{
-			vertices[i].tex = { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y };
-		}
-		else
-		{
-			vertices[i].tex = { 0.0f, 0.0f };
-		}
+        // Set texture coordinates (if they exist)
+        if (mesh->mTextureCoords[0]) {
+            vertices[i].tex = { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y };
+        }
+        else {
+            vertices[i].tex = { 0.0f, 0.0f };
+        }
 
-		// Set colour (just use white for now)
-		vertices[i].col = { 1.0f, 1.0f, 1.0f };
-	}
+        // Set color (default to white)
+        vertices[i].col = { 1.0f, 1.0f, 1.0f };
 
-	// Iterate over indices through faces and copy across
-	for (size_t i = 0; i < mesh->mNumFaces; i++)
-	{
-		// Get a face
-		aiFace face = mesh->mFaces[i];
+        // Initialize normal vector with default value
+        vertices[i].norm = glm::vec3(0.0f, 0.0f, 0.0f);
+    }
 
-		// Go through face's indices and add to list
-		for (size_t j = 0; j < face.mNumIndices; j++)
-		{
-			indices.push_back(face.mIndices[j]);
-		}
-	}
+    // Copy indices from mesh
+    for (size_t i = 0; i < mesh->mNumFaces; i++) {
+        aiFace face = mesh->mFaces[i];
+        for (size_t j = 0; j < face.mNumIndices; j++) {
+            indices.push_back(face.mIndices[j]);
+        }
+    }
 
-	// Create new mesh with details and return it
-	Mesh newMesh = Mesh(newPhysicalDevice, newDevice, transferQueue, transferCommandPool, &vertices, &indices, matToTex[mesh->mMaterialIndex]);
+    // Ha a modell nem tartalmaz normálokat, akkor számoljuk ki õket
+    if (!mesh->HasNormals()) {
+        for (size_t i = 0; i < indices.size(); i += 3)
+        {
+            uint32_t i0 = indices[i];
+            uint32_t i1 = indices[i + 1];
+            uint32_t i2 = indices[i + 2];
 
-	return newMesh;
+            // Háromszög három pontja
+            glm::vec3 v0 = vertices[i0].pos;
+            glm::vec3 v1 = vertices[i1].pos;
+            glm::vec3 v2 = vertices[i2].pos;
+
+            // Normál számítása
+            glm::vec3 normal = calculateNorm(v0, v1, v2);
+
+            // Normál hozzáadása a három vertexhez
+            vertices[i0].norm += normal;
+            vertices[i1].norm += normal;
+            vertices[i2].norm += normal;
+        }
+
+        // Végsõ normalizálás minden vertex normáljára
+        for (auto& vertex : vertices) {
+            vertex.norm = glm::normalize(vertex.norm);
+        }
+    }
+    else {
+        // Ha a modell tartalmaz normálokat, másoljuk át õket
+        for (size_t i = 0; i < mesh->mNumVertices; i++) {
+            vertices[i].norm = { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z };
+        }
+    }
+
+    // Create new mesh with details and return it
+    Mesh newMesh = Mesh(newPhysicalDevice, newDevice, transferQueue, transferCommandPool, &vertices, &indices, matToTex[mesh->mMaterialIndex]);
+
+    return newMesh;
 }
 
 void MeshModel::keyControl(bool* keys, float deltaTime, float moveSpeed, float angleSpeed)
 {
     if (this->controlable)
     {
-        // Mozgás jobbra/balra (X tengely mentén)
-        if (keys[GLFW_KEY_LEFT]) {
-            position.x -= moveSpeed * deltaTime;  // Mozgás balra
-        }
-        if (keys[GLFW_KEY_RIGHT]) {
-            position.x += moveSpeed * deltaTime;  // Mozgás jobbra
-        }
+        // Irányvektorok számítása
+        glm::vec3 forward = getDirection(); // Az aktuális irány
+        glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f))); // Jobbra mutató vektor
+        glm::vec3 up = glm::normalize(glm::cross(right, forward)); // Felfelé mutató vektor
 
-        // Mozgás fel/le (Y tengely mentén)
+        // Mozgás elõre/hátra
         if (keys[GLFW_KEY_UP]) {
-            position.y += moveSpeed * deltaTime;  // Mozgás felfelé
+            position += forward * moveSpeed * deltaTime; // Elõre
         }
         if (keys[GLFW_KEY_DOWN]) {
-            position.y -= moveSpeed * deltaTime;  // Mozgás lefelé
+            position -= forward * moveSpeed * deltaTime; // Hátra
         }
 
-        // Forgatás a saját tengely körül (numpad 8/2)
-        if (keys[GLFW_KEY_KP_8]) {  // Numpad 8 (fel)
-            angleZ -= angleSpeed * deltaTime;  // Forgatás fel
+        // Mozgás balra/jobbra
+        if (keys[GLFW_KEY_LEFT]) {
+            position -= right * moveSpeed * deltaTime; // Balra
         }
-        if (keys[GLFW_KEY_KP_2]) {  // Numpad 2 (le)
-            angleZ += angleSpeed * deltaTime;  // Forgatás le
+        if (keys[GLFW_KEY_RIGHT]) {
+            position += right * moveSpeed * deltaTime; // Jobbra
         }
 
-        // Forgatás balra/jobbra (numpad 4/6)
-        if (keys[GLFW_KEY_KP_4]) {  // Numpad 4 (balra)
-            angleY -= angleSpeed * deltaTime;  // Forgatás balra
+        // Felfelé/lefelé mozgás (ha Ctrl nyomva van)
+        bool isCtrlPressed = keys[GLFW_KEY_RIGHT_CONTROL] || keys[GLFW_KEY_LEFT_CONTROL];
+        if (isCtrlPressed) {
+            if (keys[GLFW_KEY_UP]) {
+                position += up * moveSpeed * deltaTime; // Felfelé
+            }
+            if (keys[GLFW_KEY_DOWN]) {
+                position -= up * moveSpeed * deltaTime; // Lefelé
+            }
         }
-        if (keys[GLFW_KEY_KP_6]) {  // Numpad 6 (jobbra)
-            angleY += angleSpeed * deltaTime;  // Forgatás jobbra
+
+        // Forgatás a saját tengelyek körül
+        if (keys[GLFW_KEY_KP_8]) {
+            angleX -= angleSpeed * deltaTime; // Fel (X tengely körül)
+        }
+        if (keys[GLFW_KEY_KP_2]) {
+            angleX += angleSpeed * deltaTime; // Le (X tengely körül)
+        }
+        if (keys[GLFW_KEY_KP_4]) {
+            angleY -= angleSpeed * deltaTime; // Balra (Y tengely körül)
+        }
+        if (keys[GLFW_KEY_KP_6]) {
+            angleY += angleSpeed * deltaTime; // Jobbra (Y tengely körül)
         }
 
         // Modell mátrix frissítése
-        modelMatrix = glm::mat4(1.0f);  // Alap mátrix
-        modelMatrix = glm::translate(modelMatrix, position);  // Pozíció alkalmazása
-        modelMatrix = glm::rotate(modelMatrix, glm::radians(angleY), glm::vec3(0.0f, 1.0f, 0.0f));  // Y tengely körüli forgatás
-        modelMatrix = glm::rotate(modelMatrix, glm::radians(angleZ), glm::vec3(0.0f, 0.0f, 1.0f));  // z tengely körüli forgatás
+        glm::mat4 modelMatrix = glm::mat4(1.0f);
+        modelMatrix = glm::translate(modelMatrix, position); // Pozíció alkalmazása
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(angleX), glm::vec3(1.0f, 0.0f, 0.0f)); // X tengely körüli forgatás (fel/le)
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(angleY), glm::vec3(0.0f, 1.0f, 0.0f)); // Y tengely körüli forgatás (balra/jobbra)
 
-        this->setModel(modelMatrix);  // Frissített modell mátrix beállítása
+        this->setModel(modelMatrix); // Frissített mátrix beállítása
     }
 }
+
+
+
 
 
 MeshModel::~MeshModel()
 {
 }
+
+glm::vec3 MeshModel::calculateNorm(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2)
+{
+    // Két élt számolunk a háromszögbõl
+    glm::vec3 edge1 = v1 - v0;
+    glm::vec3 edge2 = v2 - v0;
+
+    // Keresztszorzatot alkalmazunk, hogy meghatározzuk a normált
+    glm::vec3 normal = glm::normalize(glm::cross(edge1, edge2));
+
+    return normal;
+}
+

@@ -84,6 +84,7 @@ void Mesh::createVertexBuffer(VkQueue transferQueue, VkCommandPool transferComma
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 		&stagingBuffer, &stagingBufferMemory);
 
+
 	// MAP MEMORY TO VERTEX BUFFER
 	void* data;																// 1. Create pointer to a point in normal memory
 	vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);			// 2. "Map" the vertex buffer memory to that point

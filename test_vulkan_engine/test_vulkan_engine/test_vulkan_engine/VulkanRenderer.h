@@ -106,19 +106,38 @@ public:
 
 
 	// - LIGHT
-	// -- Ambiant
-	struct UboAmbLighting {
-		glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-		float ambiantStr = 0.4f;
-	} uboAmbLighting;
+	
+	// -- Lighting
+	struct Spotlight {
+		glm::vec3 lightDirection; // A fény iránya
+		float diffuseStr;         // Diffúz fény erõssége
+		glm::vec3 lightColor;     // A fény színe
+		float specularStr;        // Speculáris fény erõssége
+		float shininess;          // Speculáris élesség
+
+		float innerCutOff;        // A fény kúp szögének belsõ határa
+		float outerCutOff;        // A fény kúp szögének külsõ határa
+
+		glm::vec3 lightPosition;  // ÚJ: A fény pozíciója
+		float padding;            // Igazítás 16 bájtra
+	};
+
+	struct UboLighting {
+		glm::vec3 ambiantLightColor;  // Ambient fény színe
+		float ambiantStr;             // Ambient fény erõssége
+
+		Spotlight spotlight[1];
+	} uboLighting;
+
 	std::vector<VkBuffer> lightingUniformBuffer;
 	std::vector<VkDeviceMemory> lightingUniformBufferMemory;
+
 
 	VulkanRenderer();
 
 	int init(GLFWwindow* newWindow, Camera* camera);
 
-	int createMeshModel(std::string modelFile, bool controlable);
+	int createMeshModel(std::string modelFile, bool controlable, glm::vec3 startPos,bool isLookingAt, glm::vec3 lookAt = glm::vec3(1.0f, 0.0f, 0.0f));
 	void updateModel(int modelId, glm::mat4 newModel);
 	void updateView();
 

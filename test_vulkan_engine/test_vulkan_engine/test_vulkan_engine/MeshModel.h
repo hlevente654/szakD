@@ -13,7 +13,8 @@ class MeshModel
 {
 public:
 	MeshModel();
-	MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos = glm::vec3(0.0f, 0.0f, 0.0f));
+	MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos);
+	MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos, glm::vec3 lookAt);
 
 	size_t getMeshCount();
 	Mesh* getMesh(size_t index);
@@ -23,6 +24,9 @@ public:
 	bool getControlable();
 
 	void setModel(glm::mat4 newModel);
+	glm::vec3 getPosition();
+
+	glm::vec3 getDirection();
 
 	void destroyMeshModel();
 
@@ -43,7 +47,8 @@ private:
 	glm::vec3 position;
 	bool controlable;
 	float angleY = 0.0f; // Y tengely körüli forgatás
-	float angleZ = 0.0f; // Z tengely körüli forgatás
-	glm::mat4 modelMatrix = glm::mat4(1.0f); // Modell mátrix
+	float angleX = 0.0f; // Z tengely körüli forgatás
+
+	static glm::vec3 calculateNorm(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2);
 };
 

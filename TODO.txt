@@ -1,0 +1,2 @@
+- Directional light megcsinálása egy fényforrással.
+- Adatok átadásának megtalálása

@@ -4,6 +4,9 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -34,11 +37,14 @@ int main()
 	float lastTime = 0.0f;
 	std::vector<int> modelIds;
 
-	int seahawk = vulkanRenderer.createMeshModel("Models/Seahawk.obj", false);
+	int seahawk = vulkanRenderer.createMeshModel("Models/Seahawk.obj", false, { {-100.0f}, {0.0f}, {80.0f} }, false, { {0.0f}, {0.0f}, {0.0f} });
 	modelIds.push_back(seahawk);
-	int flashlight = vulkanRenderer.createMeshModel("Models/flashlight.obj", true);
+	int ground = vulkanRenderer.createMeshModel("Models/ground.obj", false, { {0.0f}, {-20.0f}, {0.0f} }, false, { {0.0f}, {0.0f}, {0.0f} });
+	modelIds.push_back(ground);
+	int flashlight = vulkanRenderer.createMeshModel("Models/flashlight.obj", true, { {0.0f}, {0.0f}, {0.0f} }, true, vulkanRenderer.getMeshModel(seahawk)->getPosition());
 	modelIds.push_back(flashlight);
 
+	
 	// Loop until closed
 	while (!glfwWindowShouldClose(window.mainWindow))
 	{
@@ -54,14 +60,37 @@ int main()
 		angle += 10.0f * deltaTime;
 		if (angle > 360.0f) { angle -= 360.0f; }
 
+		// lighting
+		// Lighting
+			vulkanRenderer.uboLighting.ambiantLightColor = glm::vec3(1.0f, 1.0f, 1.0f); // Ambient fény színe
+			vulkanRenderer.uboLighting.ambiantStr = 0.2f; // Ambient erõssége
+
+			// Spotlight beállítása
+			glm::vec3 flashlightDirection = vulkanRenderer.getMeshModel(flashlight)->getDirection();
+			float offset = 1.0f;  // Az eltolás mértéke
+			glm::vec3 flashlightFront = vulkanRenderer.getMeshModel(flashlight)->getPosition() + flashlightDirection * offset;
+
+			glm::vec3 flashlightPosition = vulkanRenderer.getMeshModel(flashlight)->getPosition();
+			vulkanRenderer.uboLighting.spotlight[0].lightPosition = flashlightPosition;
+
+			vulkanRenderer.uboLighting.spotlight[0].lightDirection = flashlightDirection; // Irány
+			vulkanRenderer.uboLighting.spotlight[0].lightColor = glm::vec3(0.5f, 0.5f, 0.5f);  // Fény színe
+			vulkanRenderer.uboLighting.spotlight[0].diffuseStr = 0.8f; // Diffúz fény
+			vulkanRenderer.uboLighting.spotlight[0].specularStr = 0.8f; // Speculáris fény
+			vulkanRenderer.uboLighting.spotlight[0].shininess = 12.0f;  // Speculáris élesség
+
+			// Spotlight szögek beállítása
+			vulkanRenderer.uboLighting.spotlight[0].innerCutOff = glm::cos(glm::radians(15.0f)); // Szûk belsõ szög
+			vulkanRenderer.uboLighting.spotlight[0].outerCutOff = glm::cos(glm::radians(25.0f));
+
+
 		// update camera
 		vulkanRenderer.updateView();
 
-		// update model
+		// update models
 		for (size_t i = 0; i < modelIds.size(); i++)
 		{
-			vulkanRenderer.getMeshModel(modelIds[i])->keyControl(window.getsKeys(), deltaTime, 8.0f, 8.0f);
-
+			vulkanRenderer.getMeshModel(modelIds[i])->keyControl(window.getsKeys(), deltaTime, 8.0f, 10.0f);
 		}
 		
 

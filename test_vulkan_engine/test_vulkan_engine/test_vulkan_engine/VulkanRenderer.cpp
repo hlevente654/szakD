@@ -651,7 +651,7 @@ void VulkanRenderer::createGraphicsPipeline()
 	// VK_VERTEX_INPUT_RATE_INSTANCE	: Move to a vertex for the next instance
 
 // How the data for an attribute is defined within a vertex
-	std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions;
+	std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions;
 
 	// Position Attribute
 	attributeDescriptions[0].binding = 0;							// Which binding the data is at (should be same as above)
@@ -670,6 +670,13 @@ void VulkanRenderer::createGraphicsPipeline()
 	attributeDescriptions[2].location = 2;
 	attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
 	attributeDescriptions[2].offset = offsetof(Vertex, tex);
+
+	// Normal Attribute
+	attributeDescriptions[3].binding = 0;
+	attributeDescriptions[3].location = 3;
+	attributeDescriptions[3].format = VK_FORMAT_R32G32B32_SFLOAT;
+	attributeDescriptions[3].offset = offsetof(Vertex, norm);
+
 
 	// -- VERTEX INPUT --
 	VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo = {};
@@ -966,31 +973,46 @@ void VulkanRenderer::createTextureSampler()
 		throw std::runtime_error("Filed to create a Texture Sampler!");
 	}
 }
-
 void VulkanRenderer::createUniformBuffers()
 {
-	// ViewProjection buffer size
+	// ViewProjection buffer mérete
 	VkDeviceSize vpBufferSize = sizeof(UboViewProjection);
-	
-	VkDeviceSize lightingBufferSize = sizeof(UboAmbLighting);
 
-	// One uniform buffer for each image (and by extension, command buffer)
+	// Ambiant lighting buffer mérete
+	VkDeviceSize lightingBufferSize = sizeof(UboLighting);
+
+	// Egy uniform buffer minden egyes swap chain képhez (és ezzel együtt command bufferhez)
 	vpUniformBuffer.resize(swapChainImages.size());
 	vpUniformBufferMemory.resize(swapChainImages.size());
 
 	lightingUniformBuffer.resize(swapChainImages.size());
 	lightingUniformBufferMemory.resize(swapChainImages.size());
 
-	// Create Uniform buffers
+	// Uniform bufferek létrehozása
 	for (size_t i = 0; i < swapChainImages.size(); i++)
 	{
-		createBuffer(mainDevice.physicalDevice, mainDevice.logicalDevice, vpBufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &vpUniformBuffer[i], &vpUniformBufferMemory[i]);
-
-		createBuffer(mainDevice.physicalDevice, mainDevice.logicalDevice, lightingBufferSize,
+		// ViewProjection buffer
+		createBuffer(
+			mainDevice.physicalDevice,
+			mainDevice.logicalDevice,
+			vpBufferSize,
 			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			&lightingUniformBuffer[i], &lightingUniformBufferMemory[i]);
+			&vpUniformBuffer[i],
+			&vpUniformBufferMemory[i]
+		);
+
+		// Ambient lighting buffer
+		createBuffer(
+			mainDevice.physicalDevice,
+			mainDevice.logicalDevice,
+			lightingBufferSize,
+			VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+			&lightingUniformBuffer[i],
+			&lightingUniformBufferMemory[i]
+		);
+
 	}
 }
 
@@ -1084,7 +1106,7 @@ void VulkanRenderer::createDescriptorSets()
 		VkDescriptorBufferInfo lightBufferInfo = {};
 		lightBufferInfo.buffer = lightingUniformBuffer[i];
 		lightBufferInfo.offset = 0;
-		lightBufferInfo.range = sizeof(UboAmbLighting);
+		lightBufferInfo.range = sizeof(UboLighting);
 
 		// Data about connection between binding and buffer
 		VkWriteDescriptorSet vpSetWrite = {};
@@ -1105,21 +1127,6 @@ void VulkanRenderer::createDescriptorSets()
 		lightSetWrite.descriptorCount = 1;
 		lightSetWrite.pBufferInfo = &lightBufferInfo;
 
-		// MODEL DESCRIPTOR
-		// Model Buffer Binding Info
-		/*VkDescriptorBufferInfo modelBufferInfo = {};
-		modelBufferInfo.buffer = modelDUniformBuffer[i];
-		modelBufferInfo.offset = 0;
-		modelBufferInfo.range = modelUniformAlignment;
-
-		VkWriteDescriptorSet modelSetWrite = {};
-		modelSetWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		modelSetWrite.dstSet = descriptorSets[i];
-		modelSetWrite.dstBinding = 1;
-		modelSetWrite.dstArrayElement = 0;
-		modelSetWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
-		modelSetWrite.descriptorCount = 1;
-		modelSetWrite.pBufferInfo = &modelBufferInfo;*/
 
 		// List of Descriptor Set Writes
 		std::vector<VkWriteDescriptorSet> setWrites = { vpSetWrite, lightSetWrite };
@@ -1130,17 +1137,6 @@ void VulkanRenderer::createDescriptorSets()
 	}
 }
 
-/*
-void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
-{
-	// Copy VP data
-	void* data;
-	vkMapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex], 0, sizeof(UboViewProjection), 0, &data);
-	memcpy(data, &uboViewProjection, sizeof(UboViewProjection));
-	vkUnmapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex]);
-}
-*/
-
 void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
 {
 	// Frissítjük a ViewProjection adatokat
@@ -1149,9 +1145,9 @@ void VulkanRenderer::updateUniformBuffers(uint32_t imageIndex)
 	memcpy(data, &uboViewProjection, sizeof(UboViewProjection));
 	vkUnmapMemory(mainDevice.logicalDevice, vpUniformBufferMemory[imageIndex]);
 
-	// Frissítjük a Lighting adatokat
-	vkMapMemory(mainDevice.logicalDevice, lightingUniformBufferMemory[imageIndex], 0, sizeof(UboAmbLighting), 0, &data);
-	memcpy(data, &uboAmbLighting, sizeof(UboAmbLighting));
+	// Frissítjük a Amb Lighting adatokat
+	vkMapMemory(mainDevice.logicalDevice, lightingUniformBufferMemory[imageIndex], 0, sizeof(UboLighting), 0, &data);
+	memcpy(data, &uboLighting, sizeof(UboLighting));
 	vkUnmapMemory(mainDevice.logicalDevice, lightingUniformBufferMemory[imageIndex]);
 }
 
@@ -1761,7 +1757,7 @@ int VulkanRenderer::createTextureDescriptor(VkImageView textureImage)
 	return samplerDescriptorSets.size() - 1;
 }
 
-int VulkanRenderer::createMeshModel(std::string modelFile, bool controlable)
+int VulkanRenderer::createMeshModel(std::string modelFile, bool controlable, glm::vec3 startPos, bool isLookingAt, glm::vec3 lookAt)
 {
 	// Import model "scene"
 	Assimp::Importer importer;
@@ -1797,7 +1793,11 @@ int VulkanRenderer::createMeshModel(std::string modelFile, bool controlable)
 		scene->mRootNode, scene, matToTex);
 
 	// Create mesh model and add to list
-	MeshModel meshModel = MeshModel(modelMeshes, controlable);
+	MeshModel meshModel;
+
+	if (isLookingAt) { meshModel = MeshModel(modelMeshes, controlable, startPos, lookAt); }
+	else { meshModel = MeshModel(modelMeshes, controlable, startPos); }
+	
 	modelList.push_back(meshModel);
 
 	return modelList.size() - 1;
