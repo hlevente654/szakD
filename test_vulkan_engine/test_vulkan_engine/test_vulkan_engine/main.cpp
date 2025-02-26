@@ -41,7 +41,7 @@ int main()
 	modelIds.push_back(seahawk);
 	int ground = vulkanRenderer.createMeshModel("Models/ground.obj", false, { {0.0f}, {-20.0f}, {0.0f} }, false, { {0.0f}, {0.0f}, {0.0f} });
 	modelIds.push_back(ground);
-	int flashlight = vulkanRenderer.createMeshModel("Models/flashlight.obj", true, { {0.0f}, {0.0f}, {0.0f} }, true, vulkanRenderer.getMeshModel(seahawk)->getPosition());
+	int flashlight = vulkanRenderer.createMeshModel("Models/flashlight.obj", true, { {0.0f}, {0.0f}, {0.0f} }, true, { {(-1.0f)}, {(0.0f)}, {(0.0f)} });
 	modelIds.push_back(flashlight);
 
 	
