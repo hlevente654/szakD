@@ -56,6 +56,46 @@ void VulkanRenderer::setupDebugMessenger() {
 	}
 }
 
+void VulkanRenderer::initShadow()
+{
+
+}
+
+void VulkanRenderer::setLighting(int source)
+{
+
+	uboLighting.ambiantLightColor = glm::vec3(1.0f, 1.0f, 1.0f); // Ambient fény színe
+	uboLighting.ambiantStr = 0.2f; // Ambient erõssége
+
+	// Spotlight beállítása
+	glm::vec3 flashlightDirection = getMeshModel(source)->getDirection();
+	float offset = 1.0f;  // Az eltolás mértéke
+	glm::vec3 flashlightFront = getMeshModel(source)->getPosition() + flashlightDirection * offset;
+
+
+
+	glm::vec3 flashlightPosition = getMeshModel(source)->getPosition();
+
+	//flashlightPosition = glm::vec3(flashlightPosition.z, flashlightPosition.x, flashlightPosition.y);
+
+
+	uboLighting.spotlight[0].lightPosition = glm::vec4(flashlightPosition, 0.0f);
+
+	//std::cout << "flashlightPosition: " << flashlightPosition.x << " | " << flashlightPosition.y << " | " << flashlightPosition.z << std::endl;
+
+	//std::cout << "lightPosition: " << vulkanRenderer.uboLighting.spotlight[0].lightPosition.x << " | " << vulkanRenderer.uboLighting.spotlight[0].lightPosition.y << " | " << vulkanRenderer.uboLighting.spotlight[0].lightPosition.z << std::endl;
+
+	uboLighting.spotlight[0].lightDirection = flashlightDirection; // Irány
+	uboLighting.spotlight[0].lightColor = glm::vec3(0.5f, 0.5f, 0.5f);  // Fény színe
+	uboLighting.spotlight[0].diffuseStr = 0.8f; // Diffúz fény
+	uboLighting.spotlight[0].specularStr = 0.8f; // Speculáris fény
+	uboLighting.spotlight[0].shininess = 12.0f;  // Speculáris élesség
+
+	// Spotlight szögek beállítása
+	uboLighting.spotlight[0].innerCutOff = glm::cos(glm::radians(15.0f)); // Szûk belsõ szög
+	uboLighting.spotlight[0].outerCutOff = glm::cos(glm::radians(25.0f));
+}
+
 void VulkanRenderer::updateModel(int modelId, glm::mat4 newModel)
 {
 	if (modelId >= modelList.size()) return;
@@ -80,6 +120,7 @@ void VulkanRenderer::updateView()
 	uboViewProjection.view = glm::lookAt(cameraPosition, cameraTarget, upDirection);
 
 	uboViewProjection.projection[1][1] *= -1;
+
 }
 
 

@@ -22,15 +22,15 @@ layout(location = 4) out vec3 viewPos;   // Kamera pozíciója világ térben
 
 void main() {
     mat4 modelMatrix = pushModel.model;
-    mat3 normalMatrix = transpose(inverse(mat3(modelMatrix))); // Normál transzformálása
+    mat3 normalMatrix = mat3(transpose(inverse(modelMatrix))); // Normál transzformálása
 
     gl_Position = uboViewProjection.projection * uboViewProjection.view * modelMatrix * vec4(pos, 1.0);
     
     fragCol = col;
     fragTex = tex;
-    fragNorm = normalMatrix * norm;  // Normál átvitele világ térbe
+    fragNorm = normalize(normalMatrix * norm);  // Normalizált normál átvitele világ térbe
     fragPos = vec3(modelMatrix * vec4(pos, 1.0)); // Fragment pozíció világ térben
 
-    // Kamera pozíció kiszámítása: nézet mátrix inverzének translation része
-    viewPos = vec3(inverse(uboViewProjection.view)[3]); // View mátrix inverzének 4. sora
+    // Kamera pozíció helyes kiszámítása
+    viewPos = vec3(inverse(uboViewProjection.view) * vec4(0, 0, 0, 1));
 }

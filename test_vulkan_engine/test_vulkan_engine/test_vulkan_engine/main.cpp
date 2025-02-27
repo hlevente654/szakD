@@ -62,27 +62,7 @@ int main()
 
 		// lighting
 		// Lighting
-			vulkanRenderer.uboLighting.ambiantLightColor = glm::vec3(1.0f, 1.0f, 1.0f); // Ambient fény színe
-			vulkanRenderer.uboLighting.ambiantStr = 0.2f; // Ambient erõssége
-
-			// Spotlight beállítása
-			glm::vec3 flashlightDirection = vulkanRenderer.getMeshModel(flashlight)->getDirection();
-			float offset = 1.0f;  // Az eltolás mértéke
-			glm::vec3 flashlightFront = vulkanRenderer.getMeshModel(flashlight)->getPosition() + flashlightDirection * offset;
-
-			glm::vec3 flashlightPosition = vulkanRenderer.getMeshModel(flashlight)->getPosition();
-			vulkanRenderer.uboLighting.spotlight[0].lightPosition = flashlightPosition;
-
-			vulkanRenderer.uboLighting.spotlight[0].lightDirection = flashlightDirection; // Irány
-			vulkanRenderer.uboLighting.spotlight[0].lightColor = glm::vec3(0.5f, 0.5f, 0.5f);  // Fény színe
-			vulkanRenderer.uboLighting.spotlight[0].diffuseStr = 0.8f; // Diffúz fény
-			vulkanRenderer.uboLighting.spotlight[0].specularStr = 0.8f; // Speculáris fény
-			vulkanRenderer.uboLighting.spotlight[0].shininess = 12.0f;  // Speculáris élesség
-
-			// Spotlight szögek beállítása
-			vulkanRenderer.uboLighting.spotlight[0].innerCutOff = glm::cos(glm::radians(15.0f)); // Szûk belsõ szög
-			vulkanRenderer.uboLighting.spotlight[0].outerCutOff = glm::cos(glm::radians(25.0f));
-
+		vulkanRenderer.setLighting(flashlight);
 
 		// update camera
 		vulkanRenderer.updateView();

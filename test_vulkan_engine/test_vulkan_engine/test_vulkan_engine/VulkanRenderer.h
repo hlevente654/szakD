@@ -106,8 +106,13 @@ public:
 
 
 	// - LIGHT
-	
+	// -- Shadows
+	void initShadow();
+
+
+
 	// -- Lighting
+	void setLighting(int source);
 	struct Spotlight {
 		glm::vec3 lightDirection; // A fény iránya
 		float diffuseStr;         // Diffúz fény erõssége
@@ -118,7 +123,7 @@ public:
 		float innerCutOff;        // A fény kúp szögének belsõ határa
 		float outerCutOff;        // A fény kúp szögének külsõ határa
 
-		glm::vec3 lightPosition;  // ÚJ: A fény pozíciója
+		glm::vec4 lightPosition;  // ÚJ: A fény pozíciója
 		float padding;            // Igazítás 16 bájtra
 	};
 
@@ -149,6 +154,10 @@ public:
 
 	~VulkanRenderer();
 
+	struct UboViewProjection {
+		glm::mat4 projection;
+		glm::mat4 view;
+	} uboViewProjection;
 private:
 	GLFWwindow* window;
 
@@ -160,10 +169,7 @@ private:
 	std::vector<MeshModel> modelList;
 
 	// Scene Settings
-	struct UboViewProjection {
-		glm::mat4 projection;
-		glm::mat4 view;
-	} uboViewProjection;
+	
 
 	// Vulkan Components
 	// - Main

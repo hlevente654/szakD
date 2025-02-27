@@ -223,9 +223,15 @@ void MeshModel::keyControl(bool* keys, float deltaTime, float moveSpeed, float a
     if (this->controlable)
     {
         // Irányvektorok számítása
+        /*
+        glm::vec3 forward = glm::vec3(1.0f, 0.0f, 0.0f); // Az aktuális irány
+        glm::vec3 right = glm::vec3(0.0f, 0.0f, 1.0f); // Jobbra mutató vektor
+        glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); // Felfelé mutató vektor
+        */
         glm::vec3 forward = getDirection(); // Az aktuális irány
         glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f))); // Jobbra mutató vektor
         glm::vec3 up = glm::normalize(glm::cross(right, forward)); // Felfelé mutató vektor
+        glm::mat4 modelMatrix = glm::mat4(1.0f);
 
         // Mozgás elõre/hátra
         if (keys[GLFW_KEY_UP]) {
@@ -236,12 +242,14 @@ void MeshModel::keyControl(bool* keys, float deltaTime, float moveSpeed, float a
         }
 
         // Mozgás balra/jobbra
+        /*
         if (keys[GLFW_KEY_LEFT]) {
             position -= right * moveSpeed * deltaTime; // Balra
         }
         if (keys[GLFW_KEY_RIGHT]) {
             position += right * moveSpeed * deltaTime; // Jobbra
         }
+        */
 
         // Felfelé/lefelé mozgás (ha Ctrl nyomva van)
         bool isCtrlPressed = keys[GLFW_KEY_RIGHT_CONTROL] || keys[GLFW_KEY_LEFT_CONTROL];
@@ -262,14 +270,14 @@ void MeshModel::keyControl(bool* keys, float deltaTime, float moveSpeed, float a
             angleX += angleSpeed * deltaTime; // Le (X tengely körül)
         }
         if (keys[GLFW_KEY_KP_4]) {
-            angleY -= angleSpeed * deltaTime; // Balra (Y tengely körül)
+            angleY += angleSpeed * deltaTime; // Balra (Y tengely körül)
         }
         if (keys[GLFW_KEY_KP_6]) {
-            angleY += angleSpeed * deltaTime; // Jobbra (Y tengely körül)
+            angleY -= angleSpeed * deltaTime; // Jobbra (Y tengely körül)
         }
 
         // Modell mátrix frissítése
-        glm::mat4 modelMatrix = glm::mat4(1.0f);
+        
         modelMatrix = glm::translate(modelMatrix, position); // Pozíció alkalmazása
         modelMatrix = glm::rotate(modelMatrix, glm::radians(angleX), glm::vec3(1.0f, 0.0f, 0.0f)); // X tengely körüli forgatás (fel/le)
         modelMatrix = glm::rotate(modelMatrix, glm::radians(angleY), glm::vec3(0.0f, 1.0f, 0.0f)); // Y tengely körüli forgatás (balra/jobbra)
