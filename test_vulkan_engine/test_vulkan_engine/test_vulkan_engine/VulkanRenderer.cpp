@@ -36,6 +36,8 @@ int VulkanRenderer::init(GLFWwindow* newWindow, Camera* newCamera)
 
 		// Create our default "no texture" texture
 		createTexture("plain.png");
+
+		initShadow();
 	}
 	catch (const std::runtime_error& e) {
 		printf("ERROR: %s\n", e.what());
@@ -58,7 +60,7 @@ void VulkanRenderer::setupDebugMessenger() {
 
 void VulkanRenderer::initShadow()
 {
-
+	shadowMappingHandler = new  ShadowMappingHandler(&mainDevice.logicalDevice, &mainDevice.physicalDevice);
 }
 
 void VulkanRenderer::setLighting(int source)
@@ -76,7 +78,7 @@ void VulkanRenderer::setLighting(int source)
 
 	glm::vec3 flashlightPosition = getMeshModel(source)->getPosition();
 
-	//flashlightPosition = glm::vec3(flashlightPosition.z, flashlightPosition.x, flashlightPosition.y);
+	flashlightPosition = glm::vec3(flashlightPosition.z, flashlightPosition.x, flashlightPosition.y);
 
 
 	uboLighting.spotlight[0].lightPosition = glm::vec4(flashlightPosition, 0.0f);
@@ -106,8 +108,6 @@ void VulkanRenderer::updateModel(int modelId, glm::mat4 newModel)
 void VulkanRenderer::updateView()
 {
 	glm::vec3 cameraPosition = this->camera->getPosition();
-	//glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, -2.0f);
-	//glm::vec3 cameraTarget = this->camera->getFront();
 	glm::vec3 cameraTarget = this->camera->getPosition() + this->camera->getFront();
 	glm::vec3 upDirection = this->camera->getUp();
 
@@ -119,9 +119,23 @@ void VulkanRenderer::updateView()
 	// A kamera nézete (view matrix) számítása
 	uboViewProjection.view = glm::lookAt(cameraPosition, cameraTarget, upDirection);
 
-	uboViewProjection.projection[1][1] *= -1;
+	uboViewProjection.projection[1][1] *= -1; // Vulkan Y-tengely korrekció
 
+	// **Lámpa (pontfény) shadow map beállítása**
+	glm::vec3 lightPosition = glm::vec3(5.0f, 10.0f, 5.0f); // Példa érték, a lámpa helyzete
+	glm::vec3 lightTarget = glm::vec3(0.0f, 0.0f, 0.0f);    // A fény célpontja
+	glm::vec3 lightUp = glm::vec3(0.0f, 1.0f, 0.0f);        // Fel irány
+
+	// Perspektivikus vetítési mátrix a pontfény számára
+	uboLightViewProjection.projection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
+
+	// Nézeti mátrix a fényforrás szemszögébõl
+	uboLightViewProjection.view = glm::lookAt(lightPosition, lightTarget, lightUp);
+
+	// Vulkan Y-tengely korrekció
+	uboLightViewProjection.projection[1][1] *= -1;
 }
+
 
 
 void VulkanRenderer::draw()
@@ -196,6 +210,8 @@ void VulkanRenderer::cleanup()
 	{
 		modelList[i].destroyMeshModel();
 	}
+
+	delete shadowMappingHandler;
 
 	vkDestroyDescriptorPool(mainDevice.logicalDevice, samplerDescriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(mainDevice.logicalDevice, samplerSetLayout, nullptr);

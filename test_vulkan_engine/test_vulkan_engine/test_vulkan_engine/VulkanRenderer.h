@@ -22,6 +22,7 @@
 #include "MeshModel.h"
 #include "Utilities.h"
 #include "Camera.h"
+#include "ShadowMappingHandler.h"
 #include <iostream>
 
 
@@ -107,9 +108,13 @@ public:
 
 	// - LIGHT
 	// -- Shadows
+	ShadowMappingHandler *shadowMappingHandler;
 	void initShadow();
 
-
+	struct UboLightViewProjection {
+		glm::mat4 projection;
+		glm::mat4 view;
+	} uboLightViewProjection;
 
 	// -- Lighting
 	void setLighting(int source);
@@ -154,10 +159,7 @@ public:
 
 	~VulkanRenderer();
 
-	struct UboViewProjection {
-		glm::mat4 projection;
-		glm::mat4 view;
-	} uboViewProjection;
+
 private:
 	GLFWwindow* window;
 
@@ -169,7 +171,10 @@ private:
 	std::vector<MeshModel> modelList;
 
 	// Scene Settings
-	
+	struct UboViewProjection {
+		glm::mat4 projection;
+		glm::mat4 view;
+	} uboViewProjection;
 
 	// Vulkan Components
 	// - Main

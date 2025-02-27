@@ -140,6 +140,7 @@
     <ClCompile Include="mainA.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshModel.cpp" />
+    <ClCompile Include="ShadowMappingHandler.cpp" />
     <ClCompile Include="VulkanRenderer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshModel.h" />
+    <ClInclude Include="ShadowMappingHandler.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="VulkanRenderer.h" />
     <ClInclude Include="Window.h" />
