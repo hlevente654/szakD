@@ -20,6 +20,7 @@ int VulkanRenderer::init(GLFWwindow* newWindow, Camera* newCamera)
 	camera = newCamera;
 
 	try {
+<<<<<<< HEAD
 		// Core Vulkan setup
 		createInstance();           ///< Create the Vulkan instance.
 		setupDebugMessenger();      ///< Enable validation layers (if enabled).
@@ -48,6 +49,33 @@ int VulkanRenderer::init(GLFWwindow* newWindow, Camera* newCamera)
 
 		// Load default texture
 		createTexture("plain.png");  ///< Load a default texture for untextured models.
+=======
+		createInstance();
+		setupDebugMessenger();
+		createSurface();
+		getPhysicalDevice();
+		createLogicalDevice();
+		createSwapChain();
+		createRenderPass();
+		createDescriptorSetLayout();
+		createPushConstantRange();
+		createGraphicsPipeline();
+		createDepthBufferImage();
+		createFramebuffers();
+		createCommandPool();
+		createCommandBuffers();
+		createTextureSampler();
+		//allocateDynamicBufferTransferSpace();
+		createUniformBuffers();
+		createDescriptorPool();
+		createDescriptorSets();
+		createSynchronisation();
+
+		// Create our default "no texture" texture
+		createTexture("plain.png");
+
+		initShadow();
+>>>>>>> d82fb4c833d2f0a93093d60e7ed889ad6e742e04
 	}
 	catch (const std::runtime_error& e) {
 		printf("ERROR: %s\n", e.what()); ///< Print error message on failure.
@@ -208,6 +236,13 @@ void VulkanRenderer::setupDebugMessenger() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+void VulkanRenderer::initShadow()
+{
+	shadowMappingHandler = new  ShadowMappingHandler(&mainDevice.logicalDevice, &mainDevice.physicalDevice);
+}
+>>>>>>> d82fb4c833d2f0a93093d60e7ed889ad6e742e04
 
 /**
  * @brief Configures lighting parameters for the scene.
@@ -229,8 +264,13 @@ void VulkanRenderer::setLighting(int source)
 	glm::vec3 flashlightFront = getMeshModel(source)->getPosition() + flashlightDirection * offset;
 	glm::vec3 flashlightPosition = getMeshModel(source)->getPosition();
 
+<<<<<<< HEAD
 	// Adjust position to match Vulkan's coordinate system
 	flashlightPosition = glm::vec3(flashlightPosition.z, flashlightPosition.x, flashlightPosition.y);
+=======
+	flashlightPosition = glm::vec3(flashlightPosition.z, flashlightPosition.x, flashlightPosition.y);
+
+>>>>>>> d82fb4c833d2f0a93093d60e7ed889ad6e742e04
 
 	// Set spotlight position and direction
 	uboLighting.spotlight[0].lightPosition = glm::vec4(flashlightPosition, 0.0f);
@@ -285,6 +325,7 @@ void VulkanRenderer::updateView()
 	// Compute the camera view matrix
 	uboViewProjection.view = glm::lookAt(cameraPosition, cameraTarget, upDirection);
 
+<<<<<<< HEAD
 	// Flip Y-axis for Vulkan coordinate system
 	uboViewProjection.projection[1][1] *= -1;
 }
@@ -297,6 +338,27 @@ void VulkanRenderer::updateView()
  * submits the command buffer to the graphics queue, and presents the rendered
  * image to the screen.
  */
+=======
+	uboViewProjection.projection[1][1] *= -1; // Vulkan Y-tengely korrekció
+
+	// **Lámpa (pontfény) shadow map beállítása**
+	glm::vec3 lightPosition = glm::vec3(5.0f, 10.0f, 5.0f); // Példa érték, a lámpa helyzete
+	glm::vec3 lightTarget = glm::vec3(0.0f, 0.0f, 0.0f);    // A fény célpontja
+	glm::vec3 lightUp = glm::vec3(0.0f, 1.0f, 0.0f);        // Fel irány
+
+	// Perspektivikus vetítési mátrix a pontfény számára
+	uboLightViewProjection.projection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
+
+	// Nézeti mátrix a fényforrás szemszögébõl
+	uboLightViewProjection.view = glm::lookAt(lightPosition, lightTarget, lightUp);
+
+	// Vulkan Y-tengely korrekció
+	uboLightViewProjection.projection[1][1] *= -1;
+}
+
+
+
+>>>>>>> d82fb4c833d2f0a93093d60e7ed889ad6e742e04
 void VulkanRenderer::draw()
 {
 	// -- GET NEXT IMAGE --
@@ -387,7 +449,12 @@ void VulkanRenderer::cleanup()
 		modelList[i].destroyMeshModel();
 	}
 
+<<<<<<< HEAD
 	// Destroy texture samplers and descriptor layouts
+=======
+	delete shadowMappingHandler;
+
+>>>>>>> d82fb4c833d2f0a93093d60e7ed889ad6e742e04
 	vkDestroyDescriptorPool(mainDevice.logicalDevice, samplerDescriptorPool, nullptr);
 	vkDestroyDescriptorSetLayout(mainDevice.logicalDevice, samplerSetLayout, nullptr);
 	vkDestroySampler(mainDevice.logicalDevice, textureSampler, nullptr);
