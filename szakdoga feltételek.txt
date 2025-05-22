@@ -1,0 +1,27 @@
+A dolgozat terjedelme mellékletek nélkül alapszakon 25-50 oldal
+
+A4
+
+Oldalbeállítás: álló lapok (a melléklet lehet fekvő), tükörmargó 2,5 cm (kötésmargó értelem szerint, kb. 1 cm),
+betűtípus Times New Roman, oldalszámozás: jobb alsó sarokban arab számok (2. oldaltól).
+
+Nyomtatás: minden lap egyoldalasan és ugyanazon az oldalon nyomtatva.
+
+    első kötéstábla,
+    címoldal,
+    feladatkiírás,
+    tartalmi összefoglaló,
+    tartalomjegyzék,
+    érdemi rész,
+    irodalomjegyzék,
+    nyilatkozat,
+    köszönetnyilvánítás,
+    melléletek,
+    hátsó kötéstábla,
+    Elektronikus melléklet.
+
+A dolgozat előírt terjedelmébe a következő részek számolandók bele: d) tartalmi összefoglaló, e) tartalomjegyzék, f) érdemi rész, g) irodalomjegyzék.
+
+A dolgozat kötelező formai elemei: b) címoldal, c) feladatkiírás, d) tartalmi összefoglaló, e) tartalomjegyzék, f) érdemi rész,
+g) irodalomjegyzék, h) nyilatkozat. (A kötelező formai elemek egyike sem lehet üres.)
+

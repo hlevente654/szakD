@@ -34,3 +34,5 @@ void main() {
     // Kamera pozíció helyes kiszámítása
     viewPos = vec3(inverse(uboViewProjection.view) * vec4(0, 0, 0, 1));
 }
+
+

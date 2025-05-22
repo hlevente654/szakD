@@ -37,7 +37,8 @@ int main()
 	float lastTime = 0.0f;
 	std::vector<int> modelIds;
 
-	int seahawk = vulkanRenderer.createMeshModel("Models/Seahawk.obj", false, { {-100.0f}, {0.0f}, {80.0f} }, false, { {0.0f}, {0.0f}, {0.0f} });
+	// Looad modells
+	int seahawk = vulkanRenderer.createMeshModel("Models/Seahawk.obj", false, { {200.0f}, {-20.0f}, {0.0f} }, false, { {0.0f}, {0.0f}, {0.0f} });
 	modelIds.push_back(seahawk);
 	int ground = vulkanRenderer.createMeshModel("Models/ground.obj", false, { {0.0f}, {-20.0f}, {0.0f} }, false, { {0.0f}, {0.0f}, {0.0f} });
 	modelIds.push_back(ground);
@@ -45,23 +46,22 @@ int main()
 	modelIds.push_back(flashlight);
 
 	
-	// Loop until closed
+	// Main loop
 	while (!glfwWindowShouldClose(window.mainWindow))
 	{
+		// Update events
 		glfwPollEvents();
+
+		//Add key and mouse controll
 		camera.keyControl(window.getsKeys(), deltaTime);
 		camera.mouseControl(window.getXChange(), window.getYChange());
 		
-
+		// Use delta time
 		float now = glfwGetTime();
 		deltaTime = now - lastTime;
 		lastTime = now;
 
-		angle += 10.0f * deltaTime;
-		if (angle > 360.0f) { angle -= 360.0f; }
-
-		// lighting
-		// Lighting
+		// Set lighting related variables
 		vulkanRenderer.setLighting(flashlight);
 
 		// update camera

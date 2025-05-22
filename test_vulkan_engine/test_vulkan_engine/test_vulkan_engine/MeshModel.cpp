@@ -22,15 +22,6 @@ MeshModel::MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec
     this->setModel(glm::translate(glm::mat4(1.0f), position));
 }
 
-MeshModel::MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos)
-{
-	meshList = newMeshList;
-	model = glm::mat4(1.0f);
-	controlable = isControlable;
-	position = startPos;
-
-	this->setModel(glm::translate(glm::mat4(1.0f), position));
-}
 
 size_t MeshModel::getMeshCount()
 {

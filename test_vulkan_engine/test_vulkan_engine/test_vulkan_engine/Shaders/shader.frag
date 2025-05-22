@@ -24,7 +24,7 @@ struct Spotlight {
     vec3 lightPosition;  // ÚJ: A fény pozíciója
 };
 
-// UboLighting struktúra, amely tartalmazza a Spotlight-ot
+
 layout(set = 0, binding = 1) uniform UboLighting {
     vec3 ambiantLightColor; // Ambient fény színe
     float ambiantStr;       // Ambient erősség
@@ -55,8 +55,8 @@ void main() {
 
     // Attenuation (distance-based)
     float distance = length(ubo.spotlight.lightPosition - fragPos);
-    //float attenuation = 1.0 / (1.0 + 0.09 * distance + 0.032 * (distance * distance)); // Példa paraméterek
-	float attenuation = 1.0;
+    float attenuation = 1.0 / (1.0 + 0.01 * distance + 0.001 * (distance * distance)); // Példa paraméterek
+	//float attenuation = 1.0;
 
 
     // Combined lighting

@@ -13,8 +13,7 @@ class MeshModel
 {
 public:
 	MeshModel();
-	MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos);
-	MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos, glm::vec3 lookAt);
+	MeshModel(std::vector<Mesh> newMeshList, bool isControlable, glm::vec3 startPos, glm::vec3 lookAt = glm::vec3(1.0f, 0.0f, 0.0f));
 
 	size_t getMeshCount();
 	Mesh* getMesh(size_t index);
