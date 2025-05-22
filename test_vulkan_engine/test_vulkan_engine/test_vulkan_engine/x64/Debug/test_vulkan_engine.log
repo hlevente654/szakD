@@ -1,223 +1,29 @@
-﻿  main.cpp
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(109,1): error C2059: syntax error: '<<'
-  (compiling source file 'main.cpp')
+﻿  Camera.cpp
+\Camera.cpp(1,1): error C1083: Cannot open source file: 'Camera.cpp': No such file or directory
+  (compiling source file '/Camera.cpp')
   
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(111,28): error C2238: unexpected token(s) preceding ';'
-  (compiling source file 'main.cpp')
+  main.cpp
+\main.cpp(1,1): error C1083: Cannot open source file: 'main.cpp': No such file or directory
+  (compiling source file '/main.cpp')
   
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(150,1): error C2059: syntax error: '>>'
-  (compiling source file 'main.cpp')
+  Mesh.cpp
+\Mesh.cpp(1,1): error C1083: Cannot open source file: 'Mesh.cpp': No such file or directory
+  (compiling source file '/Mesh.cpp')
   
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(158,28): error C2238: unexpected token(s) preceding ';'
-  (compiling source file 'main.cpp')
+  MeshModel.cpp
+\MeshModel.cpp(1,1): error C1083: Cannot open source file: 'MeshModel.cpp': No such file or directory
+  (compiling source file '/MeshModel.cpp')
   
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(274,3): error C2523: 'VulkanRenderer::Spotlight::~VulkanRenderer': destructor tag mismatch
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(285,9): error C3769: 'Spotlight': a nested class cannot have the same name as the immediately enclosing class
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(364,1): error C2059: syntax error: '<<'
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(372,27): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(375,4): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(377,1): error C2059: syntax error: '=='
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(379,27): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(382,4): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(383,1): error C2059: syntax error: '>>'
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(390,21): error C2238: unexpected token(s) preceding ';'
-  (compiling source file 'main.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\main.cpp(18,16): error C2460: 'VulkanRenderer::vulkanRenderer': uses 'VulkanRenderer', which is being defined
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(42,7):
-      see declaration of 'VulkanRenderer'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(43,1): error C1075: '{': no matching token found
-  (compiling source file 'main.cpp')
+  ShadowMappingHandler.cpp
+\ShadowMappingHandler.cpp(1,1): error C1083: Cannot open source file: 'ShadowMappingHandler.cpp': No such file or directory
+  (compiling source file '/ShadowMappingHandler.cpp')
   
   VulkanRenderer.cpp
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(109,1): error C2059: syntax error: '<<'
-  (compiling source file 'VulkanRenderer.cpp')
+\VulkanRenderer.cpp(1,1): error C1083: Cannot open source file: 'VulkanRenderer.cpp': No such file or directory
+  (compiling source file '/VulkanRenderer.cpp')
   
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(111,28): error C2238: unexpected token(s) preceding ';'
-  (compiling source file 'VulkanRenderer.cpp')
+  Window.cpp
+\Window.cpp(1,1): error C1083: Cannot open source file: 'Window.cpp': No such file or directory
+  (compiling source file '/Window.cpp')
   
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(150,1): error C2059: syntax error: '>>'
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(158,28): error C2238: unexpected token(s) preceding ';'
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(274,3): error C2523: 'VulkanRenderer::Spotlight::~VulkanRenderer': destructor tag mismatch
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(285,9): error C3769: 'Spotlight': a nested class cannot have the same name as the immediately enclosing class
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(364,1): error C2059: syntax error: '<<'
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(372,27): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(375,4): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(377,1): error C2059: syntax error: '=='
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(379,27): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(382,4): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(383,1): error C2059: syntax error: '>>'
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(390,21): error C2238: unexpected token(s) preceding ';'
-  (compiling source file 'VulkanRenderer.cpp')
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(17,21): error C4596: 'init': illegal qualified name in member declaration
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(99,22): error C4596: 'DestroyDebugUtilsMessengerEXT': illegal qualified name in member declaration
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(99,22): error C2535: 'void VulkanRenderer::DestroyDebugUtilsMessengerEXT(VkInstance,VkDebugUtilsMessengerEXT,const VkAllocationCallbacks *)': member function already defined or declared
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(121,7):
-      see declaration of 'VulkanRenderer::DestroyDebugUtilsMessengerEXT'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(125,26): error C4596: 'CreateDebugUtilsMessengerEXT': illegal qualified name in member declaration
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(125,26): error C2535: 'VkResult VulkanRenderer::CreateDebugUtilsMessengerEXT(VkInstance,const VkDebugUtilsMessengerCreateInfoEXT *,const VkAllocationCallbacks *,VkDebugUtilsMessengerEXT *)': member function already defined or declared
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(112,11):
-      see declaration of 'VulkanRenderer::CreateDebugUtilsMessengerEXT'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(155,48): error C4596: 'debugCallback': illegal qualified name in member declaration
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(155,48): error C2686: cannot overload static and non-static member functions with the same parameter types
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(94,40):
-      could be 'VkBool32 VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT,VkDebugUtilsMessageTypeFlagsEXT,const VkDebugUtilsMessengerCallbackDataEXT *,void *)'
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(155,48):
-      or       'VkBool32 VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT,VkDebugUtilsMessageTypeFlagsEXT,const VkDebugUtilsMessengerCallbackDataEXT *,void *)'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(161,12): error C2143: syntax error: missing ';' before '<<'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(161,7): error C2886: 'std::cerr': symbol cannot be used in a member using-declaration
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\iostream(40,75):
-      see declaration of 'std::cerr'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(161,75): error C2238: unexpected token(s) preceding ';'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(162,2): error C2059: syntax error: 'return'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(162,17): error C2238: unexpected token(s) preceding ';'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(174,42): error C2143: syntax error: missing ';' before 'VulkanRenderer::getRequiredExtensions'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(19,2): error C2065: 'window': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(20,2): error C2065: 'camera': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(23,1): error C2059: syntax error: '<<'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(26,3): error C3861: 'setupDebugMessenger': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(27,3): error C3861: 'createSurface': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(28,3): error C3861: 'getPhysicalDevice': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(29,3): error C3861: 'createLogicalDevice': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(30,3): error C3861: 'createSwapChain': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(31,3): error C3861: 'createRenderPass': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(32,3): error C3861: 'createDescriptorSetLayout': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(33,3): error C3861: 'createPushConstantRange': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(34,3): error C3861: 'createGraphicsPipeline': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(35,3): error C3861: 'createDepthBufferImage': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(36,3): error C3861: 'createFramebuffers': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(37,3): error C3861: 'createCommandPool': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(38,3): error C3861: 'createCommandBuffers': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(39,3): error C3861: 'createTextureSampler': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(43,3): error C3861: 'createUniformBuffers': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(44,3): error C3861: 'createDescriptorPool': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(45,3): error C3861: 'createDescriptorSets': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(48,3): error C3861: 'createSynchronisation': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(51,3): error C3861: 'createTexture': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(52,1): error C2059: syntax error: '=='
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(54,3): error C3861: 'setupDebugMessenger': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(55,3): error C3861: 'createSurface': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(56,3): error C3861: 'getPhysicalDevice': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(57,3): error C3861: 'createLogicalDevice': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(58,3): error C3861: 'createSwapChain': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(59,3): error C3861: 'createRenderPass': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(60,3): error C3861: 'createDescriptorSetLayout': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(61,3): error C3861: 'createPushConstantRange': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(62,3): error C3861: 'createGraphicsPipeline': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(63,3): error C3861: 'createDepthBufferImage': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(64,3): error C3861: 'createFramebuffers': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(65,3): error C3861: 'createCommandPool': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(66,3): error C3861: 'createCommandBuffers': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(67,3): error C3861: 'createTextureSampler': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(69,3): error C3861: 'createUniformBuffers': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(70,3): error C3861: 'createDescriptorPool': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(71,3): error C3861: 'createDescriptorSets': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(72,3): error C3861: 'createSynchronisation': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(75,3): error C3861: 'createTexture': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(78,1): error C2059: syntax error: '>>'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(174,42): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(174,42): error C2556: 'int VulkanRenderer::getRequiredExtensions(void)': overloaded function differs only by return type from 'std::vector<const char *,std::allocator<const char *>> VulkanRenderer::getRequiredExtensions(void)'
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(80,27):
-      see declaration of 'VulkanRenderer::getRequiredExtensions'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(174,42): error C2371: 'VulkanRenderer::getRequiredExtensions': redefinition; different basic types
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(80,27):
-      see declaration of 'VulkanRenderer::getRequiredExtensions'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(228,22): error C2039: 'setupDebugMessenger': is not a member of 'VulkanRenderer'
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(42,7):
-      see declaration of 'VulkanRenderer'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(232,2): error C3861: 'populateDebugMessengerCreateInfo': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(234,35): error C2065: 'instance': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(234,68): error C2065: 'debugMessenger': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(234,6): error C3861: 'CreateDebugUtilsMessengerEXT': identifier not found
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(234,84): error C2677: binary '!=': no global operator found which takes type 'VkResult' (or there is no acceptable conversion)
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(239,1): error C2059: syntax error: '<<'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(242,1): error C2143: syntax error: missing ';' before '{'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(242,1): error C2447: '{': missing function header (old-style formal list?)
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(245,1): error C2059: syntax error: '>>'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(256,1): error C2143: syntax error: missing ';' before '{'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(256,1): error C2447: '{': missing function header (old-style formal list?)
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(298,22): error C2039: 'updateModel': is not a member of 'VulkanRenderer'
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(42,7):
-      see declaration of 'VulkanRenderer'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(300,17): error C2065: 'modelList': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(302,2): error C2065: 'modelList': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(311,22): error C2039: 'updateView': is not a member of 'VulkanRenderer'
-      C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.h(42,7):
-      see declaration of 'VulkanRenderer'
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(313,29): error C2355: 'this': can only be referenced inside non-static member functions or non-static data member initializers
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(314,27): error C2355: 'this': can only be referenced inside non-static member functions or non-static data member initializers
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(314,57): error C2355: 'this': can only be referenced inside non-static member functions or non-static data member initializers
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(315,26): error C2355: 'this': can only be referenced inside non-static member functions or non-static data member initializers
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(318,2): error C2065: 'uboViewProjection': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(320,10): error C2065: 'swapChainExtent': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(320,41): error C2065: 'swapChainExtent': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(318,38): error C2672: 'glm::perspective': no matching overloaded function found
-      C:\VulkanSDK\1.3.290.0\Include\glm\ext\matrix_clip_space.hpp(332,39):
-      could be 'glm::mat<4,4,T,glm::packed_highp> glm::perspective(T,T,T,T)'
-          C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(318,38):
-          'glm::mat<4,4,T,glm::packed_highp> glm::perspective(T,T,T,T)': expects 4 arguments - 3 provided
-  
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(326,2): error C2065: 'uboViewProjection': undeclared identifier
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(328,1): error C2059: syntax error: '<<'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(341,1): error C2059: syntax error: '=='
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(350,2): error C3927: '->': trailing return type is not allowed after a non-function declarator
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(350,24): error C3484: syntax error: expected '->' before the return type
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(350,25): error C3613: missing return type after '->' ('int' assumed)
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(350,2): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(350,25): error C2146: syntax error: missing ';' before identifier 'projection'
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(353,2): error C3927: '->': trailing return type is not allowed after a non-function declarator
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(353,24): error C3484: syntax error: expected '->' before the return type
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(353,25): error C3613: missing return type after '->' ('int' assumed)
-C:\Users\Levy\Desktop\szakdoga\projekt\test_vulkan_engine\test_vulkan_engine\test_vulkan_engine\VulkanRenderer.cpp(353,25): error C1003: error count exceeds 100; stopping compilation
   Generating Code...
